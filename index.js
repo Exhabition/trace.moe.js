@@ -112,6 +112,3 @@ class Client {
 }
 
 module.exports = { Client, MediaPreview };
-
-new Client().getSimilarFromURL("https://cdn.discordapp.com/attachments/838500479444844615/891991856970354708/y2mate.com_-_Asked_for_sprite_and_they_gave_me_clown_juice_v240P.mp4", { useAdvancedPreviews: true }).then(result => console.log(result));
-
