@@ -1,0 +1,6 @@
+{
+    "BASE_URL": "https://api.trace.moe",
+    
+    "SEARCH_ENDPOINT": "/search",
+    "ACCOUNT_ENDPOINT": "/me"
+}
