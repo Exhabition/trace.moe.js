@@ -6,10 +6,9 @@ const { BASE_URL, ACCOUNT_ENDPOINT, SEARCH_ENDPOINT } = require("../constants/en
 const { FILE_SIZES } = require("../constants/fileInfo.json");
 
 // Config
-const axiosConfig = create({
+const { get, post } = create({
     baseURL: BASE_URL,
-})
-const { get, post } = axiosConfig;
+});
 
 // Helper
 const { getTraceSettings, convertMediaPreviews } = require("./helper");
@@ -113,6 +112,8 @@ class Client {
         }).catch(error => error.response);
 
         if (options?.useAdvancedPreviews) convertMediaPreviews(result.data?.result);
+
+        return result.data;
     }
 }
 
