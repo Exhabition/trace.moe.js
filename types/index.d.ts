@@ -1,18 +1,18 @@
 declare module "trace.moe" {
   class Client {
-    constructor(apiKey?: string);
+    constructor(private apiKey?: string);
 
     getAccountInfo(): Promise<AccountDetails>;
 
     getSimilarFromURL(
       url: string,
       options?: SearchOptions
-    ): Promise<SearchResponse>;
+    ): Promise<SearchResults>;
 
     getSimilarFromBuffer(
       buffer: buffer,
       options?: SearchOptions
-    ): Promise<SearchResponse>;
+    ): Promise<SearchResults>;
   }
 
   class MediaPreview {
@@ -36,7 +36,13 @@ declare interface AccountDetails {
   quotaUsed: number;
 }
 
-declare interface SearchResponse {
+declare interface SearchResults {
+  frameCount: number;
+  error: string;
+  result: SearchResult[];
+}
+
+declare interface SearchResult {
   anilist: number | AniListInfo;
   filename: string;
   episode?: number;
