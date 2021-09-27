@@ -1,11 +1,13 @@
 // Dependencies
 const { create } = require("axios").default;
 
-// Types
-// const { SearchResponse, AccountDetails } = require("./index.d.ts");
-
 // Constants
 const BASE_URL = "https://api.trace.moe";
+const FILE_SIZES = {
+    large: "l",
+    medium: "m",
+    small: "s",
+}
 
 // Config
 const axiosConfig = create({
@@ -13,6 +15,35 @@ const axiosConfig = create({
 })
 
 const { get } = axiosConfig;
+
+class MediaPreview {
+    constructor(url) {
+        this.url = url;
+        this.muted = false;
+        this.size = FILE_SIZES.medium
+    }
+
+    mute() {
+        this.muted = true;
+        this.url += "&muted";
+
+        return this;
+    }
+
+    setSize(size) {
+        size = size.toLowerCase();
+
+        let selectedSize;
+        if (Object.keys(FILE_SIZES).includes(size)) {
+            selectedSize = FILE_SIZES[size];
+        } else if (Object.values(FILE_SIZES).includes(size)) {
+            selectedSize = size;
+        }
+
+        this.size = selectedSize;
+        this.url += `&size=${selectedSize}`;
+    }
+}
 
 class Client {
     constructor(apiKey) {
@@ -37,7 +68,8 @@ class Client {
      * @param {Object} options An object with optional settings to add to the URL
      * @param {Boolean} options.cutBorders Whether black borders should be cut or not
      * @param {Number} options.anilistID A specific AniList ID to filter 
-     * @param {cutBorders} options.anilistInfo Whether to include extra AniList info (takes longer)
+     * @param {Boolean} options.anilistInfo Whether to include extra AniList info (takes longer)
+     * @param {Boolean} options.useAdvancedPreviews Wether to use special media preview class instead of just a single url
      * @returns {SearchResponse}
      */
     async getSimilarFromURL(url, options) {
@@ -52,6 +84,22 @@ class Client {
         if (options?.anilistInfo) fullURL += "?anilistInfo";
 
         const result = await get(fullURL).catch(error => error.response);
+
+        if (options?.useAdvancedPreviews) {
+            const allResults = result.data?.result;
+            if (allResults?.length > 0) {
+                for (let i = 0; i < allResults.length; i++) {
+                    const matchResult = allResults[i];
+
+                    const videoPreview = new MediaPreview(matchResult.video);
+                    allResults[i].video = videoPreview
+
+                    const imagePreview = new MediaPreview(matchResult.image);
+                    allResults[i].image = imagePreview
+                }
+            };
+        }
+
         return result.data;
     }
 
@@ -63,6 +111,7 @@ class Client {
     }
 }
 
-module.exports = { Client };
+module.exports = { Client, MediaPreview };
 
-new Client().getSimilarFromURL("https://cdn.discordapp.com/attachments/838500479444844615/891991856970354708/y2mate.com_-_Asked_for_sprite_and_they_gave_me_clown_juice_v240P.mp4").then(result => console.log(result));
+new Client().getSimilarFromURL("https://cdn.discordapp.com/attachments/838500479444844615/891991856970354708/y2mate.com_-_Asked_for_sprite_and_they_gave_me_clown_juice_v240P.mp4", { useAdvancedPreviews: true }).then(result => console.log(result));
+
