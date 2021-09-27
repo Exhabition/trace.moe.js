@@ -1,15 +1,38 @@
-interface AccountDetails {
-  id: string;
-  priority: number;
-  concurrency: number;
-  quota: number;
-  quotaUsed: number;
-}
+declare module "trace.moe" {
+  interface AccountDetails {
+    id: string;
+    priority: number;
+    concurrency: number;
+    quota: number;
+    quotaUsed: number;
+  }
 
-declare class Client {
-  constructor(key?: string);
+  interface SearchResponse {
+    filename: string;
+    episode?: number;
+  }
 
-  getAccountInfo(): Promise<AccountDetails>;
+  interface SearchOptions {
+    cutBorders: boolean;
+    anilistID: number;
+    anilistInfo: boolean;
+  }
+
+  class Client {
+    constructor(key?: string);
+
+    getAccountInfo(): Promise<AccountDetails>;
+
+    getSimilarFromURL(
+      url: string,
+      options?: SearchOptions
+    ): Promise<SearchResponse>;
+
+    getSimilarFromBuffer(
+      buffer: buffer,
+      options?: SearchOptions
+    ): Promise<SearchResponse>;
+  }
 }
 
 export = Client;
