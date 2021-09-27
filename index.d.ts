@@ -19,7 +19,7 @@ declare module "trace.moe" {
   }
 
   class Client {
-    constructor(key?: string);
+    constructor(apiKey?: string);
 
     getAccountInfo(): Promise<AccountDetails>;
 

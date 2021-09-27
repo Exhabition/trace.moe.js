@@ -15,11 +15,11 @@ const axiosConfig = create({
 const { get } = axiosConfig;
 
 class Client {
-    constructor(key) {
-        if (key) {
-            this.key = key;
+    constructor(apiKey) {
+        if (apiKey) {
+            this._apiKey = apiKey;
 
-            axiosConfig.defaults.headers.common["x-trace-key"] = this.key;
+            axiosConfig.defaults.headers.common["x-trace-key"] = this._apiKey;
         }
     }
 
