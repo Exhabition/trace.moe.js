@@ -1,0 +1,28 @@
+{
+  "name": "trace.moe",
+  "version": "1.0.0",
+  "description": "A simple JS wrapper around the trace.moe API",
+  "main": "index.js",
+  "types": "./index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Exhabition/trace.moe.js.git"
+  },
+  "keywords": [
+    "trace.moe",
+    "API",
+    "wrapper"
+  ],
+  "author": "Exhabition",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Exhabition/trace.moe.js/issues"
+  },
+  "homepage": "https://github.com/Exhabition/trace.moe.js#readme",
+  "dependencies": {
+    "axios": "^0.21.4"
+  }
+}
