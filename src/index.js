@@ -6,9 +6,10 @@ const { BASE_URL, ACCOUNT_ENDPOINT, SEARCH_ENDPOINT } = require("../constants/en
 const { FILE_SIZES } = require("../constants/fileInfo.json");
 
 // Config
-const { get, post } = create({
+const axiosConfig = create({
     baseURL: BASE_URL,
 });
+const { get, post } = axiosConfig;
 
 // Helper
 const { getTraceSettings, convertMediaPreviews } = require("./helper");
