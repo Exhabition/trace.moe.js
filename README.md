@@ -54,10 +54,14 @@ const accountInfo = await traceClient.getAccountInfo();
 */
 ```
 
-Getting similar anime by passing along an URL
+Getting similar anime by passing along an URL (or a valid buffer)
 
 ```js
+// URL
 const searchResults = await traceClient.getSimilarFromURL("https://example.com/example.png");
+
+// or a Buffer (replace "valid buffer" with a buffer representing a buffer)
+const searchResults = await traceClient.getSimilarFromBuffer("valid buffer");
 
 // or if you want to pass options
 const searchResults = await traceClient.getSimilarFromURL("https://example.com/example.png", { 
@@ -94,7 +98,27 @@ const searchResults = await traceClient.getSimilarFromURL("https://example.com/e
 */
 ```
 
-I will try and clean up these examples later and also provide docs about MediaClasses and such. For now you can check typings to see what options are available.
+## Using Options (all are optional)
+
+| Option | Type | Description |
+| --- | --- | --- |
+| cutBorders | `boolean` | Cuts black borders from screenshots that for example are taking with a phone |
+| aniListID | `number` | Search for a specific scene in an anime (in case you know the show name, but you forgot which episode) |
+| anilistInfo | `boolean` | Wether to include extra info from AniList, might slowdown request | 
+| useAdvancedPreviews | `boolean` | Replaces `video` and `image` with Media Classes |
+
+```
+/* MediaPreview
+{
+    url: string,
+    muted: boolean,
+    size: "SMALL", "MEDIUM", "LARGE",
+
+    mute() // mutes audio of clip
+    setSize() // changes the size of the clip (small, medium or large)
+}
+*/
+```
 
 ## Docs
 For full docs about trace.moe, visit https://soruly.github.io/trace.moe-api
